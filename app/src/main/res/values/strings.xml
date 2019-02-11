@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Note</string>
+    <string name="sections">Sections</string>
+    <string name="empty_section">Section is empty.\n Please create new section first</string>
+    <string name="pages">Pages</string>
+    <string name="empty_page">There is no page. Create your first page</string>
+    <string name="page_title">Untitled Page</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+    <string name="add_section">Create new section</string>
+    <string name="cancel">Cancel</string>
+    <string name="actions">Actions</string>
+    <string name="update_section">Update Section</string>
+</resources>

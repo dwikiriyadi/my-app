@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph.xml"
+            app:startDestination="@id/sectionFragment">
+
+    <fragment android:id="@+id/sectionFragment" android:name="id.ac.akakom.mobile.note.ui.section.SectionFragment"
+              android:label="fragment_section" tools:layout="@layout/fragment_section">
+        <action android:id="@+id/action_sectionFragment_to_pageFragment" app:destination="@id/pageFragment"/>
+    </fragment>
+    <fragment android:id="@+id/pageFragment" android:name="id.ac.akakom.mobile.note.ui.page.PageFragment"
+              android:label="fragment_page" tools:layout="@layout/fragment_page">
+        <action android:id="@+id/action_pageFragment_to_writeFragment" app:destination="@id/writeFragment"/>
+    </fragment>
+    <fragment android:id="@+id/writeFragment" android:name="id.ac.akakom.mobile.note.ui.write.WriteFragment"
+              android:label="fragment_write" tools:layout="@layout/fragment_write"/>
+</navigation>
