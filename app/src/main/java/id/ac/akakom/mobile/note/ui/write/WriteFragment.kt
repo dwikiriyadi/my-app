@@ -1,55 +1,47 @@
 package id.ac.akakom.mobile.note.ui.write
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
-
+import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import id.ac.akakom.mobile.note.R
-import id.ac.akakom.mobile.note.databinding.FragmentWriteBinding
-import id.ac.akakom.mobile.note.utility.ViewModelInjector
 import id.ac.akakom.mobile.note.data.model.Page
-import java.util.*
+import id.ac.akakom.mobile.note.databinding.FragmentWriteBinding
 
+@AndroidEntryPoint
 class WriteFragment : androidx.fragment.app.Fragment() {
 
-    companion object {
-        fun newInstance() = WriteFragment()
-    }
-
     private lateinit var binding: FragmentWriteBinding
-    private lateinit var viewModel: WriteViewModel
-    private lateinit var page: Page
+    private val viewModel by viewModels<WriteViewModel>()
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        (activity as AppCompatActivity).apply {
+            title = ""
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
+
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        activity!!.title = ""
-
-        (activity as AppCompatActivity).supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        setHasOptionsMenu(true)
-
-        val factory = ViewModelInjector.provideWriteViewModelFactory(requireContext())
-
-        viewModel = ViewModelProviders.of(this, factory).get(WriteViewModel::class.java)
-
         binding = FragmentWriteBinding.inflate(inflater, container, false)
 
-        viewModel.get(arguments!!.getLong("id")).observe(viewLifecycleOwner, Observer {page ->
-            if (page != null) {
-                this.page = page
-                binding.title.setText(if (page.title != null) page.title else "")
-                binding.content.setText(if (page.content != null) page.content else "")
-            }
-        })
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+        viewModel.get(requireArguments().getLong("id"))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -57,28 +49,27 @@ class WriteFragment : androidx.fragment.app.Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val navController = Navigation.findNavController(activity!!, R.id.container)
+        val navController = findNavController(requireActivity(), R.id.container)
 
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
-                if (arguments!!.getString("event") == "add") {
+                if (requireArguments().getString("event") == "add") {
+                    val page = viewModel.page.value
                     viewModel.insert(
                         Page(
-                            title = if (binding.title.text.isNotEmpty()) binding.title.text.toString() else null,
-                            content = if (binding.content.text.isNotEmpty()) binding.content.text.toString() else null,
-                            section_id = arguments!!.getLong("section_id")
+                            section_id = requireArguments().getLong("section_id"),
+                            title = page?.title,
+                            content = page?.content
                         )
                     )
                 } else {
-                    page.title = if (binding.title.text.isNotEmpty()) binding.title.text.toString() else null
-                    page.content = if (binding.content.text.isNotEmpty()) binding.content.text.toString() else null
-                    page.updated_at = Calendar.getInstance()
-                    viewModel.update(page)
+                    viewModel.update(viewModel.page.value!!)
                 }
+
                 return true
             }
             R.id.delete -> {
-                viewModel.delete(page)
+                viewModel.delete(viewModel.page.value!!)
                 navController.popBackStack()
                 return true
             }

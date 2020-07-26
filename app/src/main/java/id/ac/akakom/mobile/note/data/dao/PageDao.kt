@@ -8,17 +8,17 @@ import id.ac.akakom.mobile.note.data.model.Page
 interface PageDao {
 
     @Query("SELECT * FROM pages WHERE section_id = :id")
-    fun all(id: Long): LiveData<List<Page>>
+    suspend fun all(id: Long): List<Page>
 
     @Query("SELECT * FROM pages WHERE id = :id")
-    fun get(id: Long): LiveData<Page>
+    suspend fun get(id: Long): Page
 
     @Insert
-    fun insert(page: Page): Long
+    suspend fun insert(page: Page): Long
 
     @Delete
-    fun delete(page: Page)
+    suspend fun delete(page: Page)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(page: Page)
+    suspend fun update(page: Page)
 }

@@ -8,14 +8,14 @@ import id.ac.akakom.mobile.note.data.model.Section
 interface SectionDao {
 
     @Query("SELECT * FROM sections")
-    fun all(): LiveData<List<Section>>
+    suspend fun all(): List<Section>
 
     @Insert
-    fun insert(section: Section)
+    suspend fun insert(section: Section)
 
     @Delete
-    fun delete(section: Section)
+    suspend fun delete(section: Section)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun update(section: Section)
+    suspend fun update(section: Section)
 }

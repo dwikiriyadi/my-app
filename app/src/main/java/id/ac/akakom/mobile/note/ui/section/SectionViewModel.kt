@@ -1,28 +1,35 @@
 package id.ac.akakom.mobile.note.ui.section
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import id.ac.akakom.mobile.note.data.model.Section
 import id.ac.akakom.mobile.note.data.repository.SectionRepository
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch
 
-class SectionViewModel internal constructor(private val sectionRepository: SectionRepository) : ViewModel() {
-    private val parentJob = Job()
+class SectionViewModel @ViewModelInject constructor(
+    private val sectionRepository: SectionRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
+    private val _all = MutableLiveData<List<Section>>()
 
-    private val scope = CoroutineScope(coroutineContext)
+    val all: LiveData<List<Section>>
+        get() = _all
 
-    val all: LiveData<List<Section>> = Transformations.map(sectionRepository.all()) { sections ->
-        sections.filter { it.title.isNotEmpty() }
+    fun getAll() = viewModelScope.launch {
+        _all.postValue(sectionRepository.all().filter { it.title.isNotEmpty() })
     }
 
-    fun insert(section: Section) = scope.launch(Dispatchers.IO) { sectionRepository.insert(section) }
+    fun insert(section: Section) =
+        viewModelScope.launch { sectionRepository.insert(section) }
 
-    fun delete(section: Section) = scope.launch(Dispatchers.IO) { sectionRepository.delete(section) }
 
-    fun update(section: Section) = scope.launch(Dispatchers.IO) { sectionRepository.update(section) }
+    fun delete(section: Section) =
+        viewModelScope.launch { sectionRepository.delete(section) }
+
+
+    fun update(section: Section) =
+        viewModelScope.launch { sectionRepository.update(section) }
+
 }

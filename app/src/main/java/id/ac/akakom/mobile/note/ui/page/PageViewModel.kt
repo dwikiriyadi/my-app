@@ -1,24 +1,28 @@
 package id.ac.akakom.mobile.note.ui.page
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import id.ac.akakom.mobile.note.data.model.Page
 import id.ac.akakom.mobile.note.data.repository.PageRepository
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch
 
-class PageViewModel internal constructor(private val pageRepository: PageRepository) : ViewModel() {
+class PageViewModel @ViewModelInject constructor(
+    private val pageRepository: PageRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val parentJob = Job()
+    val sectionId = MutableLiveData<Long>()
 
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
+    private val _all = MutableLiveData<List<Page>>()
 
-    private val scope = CoroutineScope(coroutineContext)
+    val all: LiveData<List<Page>>
+        get() = _all
 
-    fun all(id: Long) = pageRepository.all(id)
+    fun getAll(id: Long) = viewModelScope.launch {
+        _all.postValue(pageRepository.all(id))
+    }
 
-    fun delete(page: Page) = scope.launch(Dispatchers.IO) { pageRepository.delete(page) }
+    fun delete(page: Page) = viewModelScope.launch { pageRepository.delete(page) }
 
 }

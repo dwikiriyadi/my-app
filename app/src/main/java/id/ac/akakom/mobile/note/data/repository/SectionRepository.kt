@@ -5,14 +5,13 @@ import id.ac.akakom.mobile.note.data.model.Section
 
 class SectionRepository private constructor(private val sectionDao: SectionDao){
 
-    fun all() = sectionDao.all()
+    suspend fun all() = sectionDao.all()
 
-    fun insert(section: Section) = sectionDao.insert(section)
+    suspend fun insert(section: Section) = sectionDao.insert(section)
 
-    fun delete(section: Section) = sectionDao.delete(section)
+    suspend fun delete(section: Section) = sectionDao.delete(section)
 
-    fun update(section: Section) = sectionDao.update(section)
-
+    suspend fun update(section: Section) = sectionDao.update(section)
 
     companion object {
         @Volatile private var instance: SectionRepository? = null

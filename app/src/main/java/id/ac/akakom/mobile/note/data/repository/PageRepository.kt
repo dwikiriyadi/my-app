@@ -5,15 +5,15 @@ import id.ac.akakom.mobile.note.data.model.Page
 
 class PageRepository private constructor(private val pageDao: PageDao){
 
-    fun all(id: Long) = pageDao.all(id)
+    suspend fun all(id: Long) = pageDao.all(id)
 
-    fun get(id: Long) = pageDao.get(id)
+    suspend fun get(id: Long) = pageDao.get(id)
 
-    fun insert(page: Page) = pageDao.insert(page)
+    suspend fun insert(page: Page) = pageDao.insert(page)
 
-    fun delete(page: Page) = pageDao.delete(page)
+    suspend fun delete(page: Page) = pageDao.delete(page)
 
-    fun update(page: Page) = pageDao.update(page)
+    suspend fun update(page: Page) = pageDao.update(page)
 
     companion object {
         @Volatile private var instance: PageRepository? = null

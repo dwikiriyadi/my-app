@@ -10,7 +10,7 @@ import java.util.*
 )
 data class Page(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val section_id: Long,
+    var section_id: Long,
     var title: String? = null,
     var content: String? = null,
     var created_at: Calendar = Calendar.getInstance(),

@@ -1,27 +1,36 @@
 package id.ac.akakom.mobile.note.ui.write
 
-import androidx.lifecycle.ViewModel;
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.*
 import id.ac.akakom.mobile.note.data.model.Page
 import id.ac.akakom.mobile.note.data.repository.PageRepository
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.launch
+import java.util.*
 
-class WriteViewModel internal constructor(private val pageRepository: PageRepository) : ViewModel() {
-    private val parentJob = Job()
+class WriteViewModel @ViewModelInject constructor(
+    private val pageRepository: PageRepository,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    private val _page = MutableLiveData<Page>()
+    val page: LiveData<Page>
+        get() = _page
 
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.Main
+    fun get(id: Long) {
+        viewModelScope.launch {
+            _page.postValue(pageRepository.get(id))
+        }
+    }
 
-    private val scope = CoroutineScope(coroutineContext)
-
-    fun get(id: Long) = pageRepository.get(id)
-
-    fun insert(page: Page) = scope.launch(Dispatchers.IO) {
+    fun insert(page: Page) = viewModelScope.launch {
         pageRepository.insert(page)
     }
 
-    fun delete(page: Page) = scope.launch(Dispatchers.IO) { pageRepository.delete(page) }
+    fun delete(page: Page) = viewModelScope.launch { pageRepository.delete(page) }
 
-    fun update(page: Page) = scope.launch(Dispatchers.IO) { pageRepository.update(page) }
+    fun update(page: Page) = viewModelScope.launch {
+        page.updated_at = Calendar.getInstance()
+        pageRepository.update(page)
+    }
 
 }
