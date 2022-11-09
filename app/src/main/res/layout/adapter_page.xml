@@ -3,7 +3,7 @@
     <data>
         <variable
                 name="data"
-                type="id.ac.akakom.mobile.note.data.model.Page" />
+                type="io.github.dwikiriyadi.app.core.objects.entity.Page" />
     </data>
     <LinearLayout
             android:orientation="vertical"

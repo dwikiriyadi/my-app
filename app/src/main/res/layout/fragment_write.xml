@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.write.WriteFragment">
+        tools:context=".features.note.write.WriteFragment">
 
     <data>
         <variable
                 name="viewModel"
-                type="id.ac.akakom.mobile.note.ui.write.WriteViewModel" />
+                type="io.github.dwikiriyadi.app.core.viewmodels.write.WriteViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
