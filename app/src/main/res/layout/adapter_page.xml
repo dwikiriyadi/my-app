@@ -3,7 +3,7 @@
     <data>
         <variable
                 name="data"
-                type="io.github.dwikiriyadi.app.core.objects.entity.Page" />
+                type="io.github.dwikiriyadi.myapp.core.objects.entity.Page" />
     </data>
     <LinearLayout
             android:orientation="vertical"

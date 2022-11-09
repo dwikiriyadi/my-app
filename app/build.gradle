@@ -9,7 +9,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
     compileSdkVersion 33
     defaultConfig {
-        applicationId "io.github.dwikiriyadi.app"
+        applicationId "io.github.dwikiriyadi.myapp"
         minSdkVersion 19
         targetSdkVersion 33
         multiDexEnabled true

@@ -4,14 +4,14 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph.xml"
             app:startDestination="@id/sectionFragment">
 
-    <fragment android:id="@+id/sectionFragment" android:name="io.github.dwikiriyadi.app.features.note.section.SectionFragment"
+    <fragment android:id="@+id/sectionFragment" android:name="io.github.dwikiriyadi.myapp.features.note.section.SectionFragment"
               android:label="fragment_section" tools:layout="@layout/fragment_section">
         <action android:id="@+id/action_sectionFragment_to_pageFragment" app:destination="@id/pageFragment"/>
     </fragment>
-    <fragment android:id="@+id/pageFragment" android:name="io.github.dwikiriyadi.app.features.note.page.PageFragment"
+    <fragment android:id="@+id/pageFragment" android:name="io.github.dwikiriyadi.myapp.features.note.page.PageFragment"
               android:label="fragment_page" tools:layout="@layout/fragment_page">
         <action android:id="@+id/action_pageFragment_to_writeFragment" app:destination="@id/writeFragment"/>
     </fragment>
-    <fragment android:id="@+id/writeFragment" android:name="io.github.dwikiriyadi.app.features.note.write.WriteFragment"
+    <fragment android:id="@+id/writeFragment" android:name="io.github.dwikiriyadi.myapp.features.note.write.WriteFragment"
               android:label="fragment_write" tools:layout="@layout/fragment_write"/>
 </navigation>

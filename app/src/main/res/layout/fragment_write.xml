@@ -6,7 +6,7 @@
     <data>
         <variable
                 name="viewModel"
-                type="io.github.dwikiriyadi.app.core.viewmodels.write.WriteViewModel" />
+                type="io.github.dwikiriyadi.myapp.core.viewmodels.write.WriteViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView
