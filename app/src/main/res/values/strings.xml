@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Note</string>
+    <string name="app_name">My App</string>
     <string name="sections">Sections</string>
     <string name="empty_section">Section is empty.\n Please create new section first</string>
     <string name="pages">Pages</string>
